@@ -9,8 +9,8 @@ class UsetString:
     CAP = f'''
 <b>CUSTOM CAPTION SETTING</b>\n
 Set custom caption with <b>HTML</b> style
-Example: <code>{escape("<b>By:</b> <a href='https://t.me/hexafreinds'>HF</a>")}</code>
-Result: <b>By:</b> <a href='https://t.me/hexafreinds'>HF</a>\n
+Example: <code>{escape("<b>By:</b> <a href='https://t.me/MrSagarBots'>MrSagarBots</a>")}</code>
+Result: <b>By:</b> <a href='https://t.me/MrSagarBots'>MrSagarBots</a>\n
 <i>*Be careful when you use html tag for caption\n
 Timeout: 60s.</i>
 '''
@@ -45,7 +45,7 @@ Timeout: 60s.</i>
 '''
     PRE = '''
 <b>PRENAME SETTING</b>\n
-Example: <b>@hexafreinds -</b>\n
+Example: <b>@MrSagarBots -</b>\n
 <b>Org Name:</b>
 <code>Ironman 1 (2008) [1080p].mkv</code>
 <b>Result:</b>
@@ -54,11 +54,11 @@ Example: <b>@hexafreinds -</b>\n
 '''
     SUF = '''
 <b>SUFNAME SETTING</b>\n
-Example: <b>- @hexafreinds</b>\n
+Example: <b>- @MrSagarBots</b>\n
 <b>Org Name:</b>
 <code>Ironman 1 (2008) [1080p].mkv</code>
 <b>Result:</b>
-<code>Ironman 1 (2008) [1080p] - @hexafreinds.mkv</code>\n
+<code>Ironman 1 (2008) [1080p] - @MrSagarBots.mkv</code>\n
 <i>Timeout: 60s.</i>
 '''
     SES = f'''
@@ -80,7 +80,7 @@ Example: <code>[</code><b>|</b><code>]</code><b>|</b> <code>-</code> <b>|</b> <c
 '''
     META = '''
 <b>METADATA SETTING</b>\n
-Send metadata title for video file like <b>Uploaded by @maheshsirop</b>
+Send metadata title for video file like <b>Uploaded by @MrSagarBots</b>
 <b>Current:</b> <code>{}</code>\n
 <i>Timeout: 60s.</i>
 '''
