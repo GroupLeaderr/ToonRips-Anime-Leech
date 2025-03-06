@@ -87,4 +87,3 @@ tgcrypto
 uvloop
 xattr
 yt-dlp
-python-dotenv
