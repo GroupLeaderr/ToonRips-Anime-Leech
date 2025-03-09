@@ -7,6 +7,7 @@ RUN uv venv
 
 COPY requirements.txt .
 RUN uv pip install --no-cache-dir -r requirements.txt
+RUN pip install python-dotenv
 
 COPY . .
 
