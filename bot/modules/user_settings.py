@@ -75,9 +75,6 @@ async def get_user_settings(from_user, data: str, uset_data: str):
         rccmsg, buttonkey = ('EXISTS ✅️', '✅️ RClone') if await aiopath.exists(rclone_path) else ('NOT SET', 'RClone')
         buttons.button_data(buttonkey, f'userset {user_id} rctool')
 
-        capmode = user_dict.get('caption_style', 'mono')
-         buttons.button_data('Caption ✅' if user_dict.get('captions') else 'Caption', f'userset {user_id} capmode')
-
         metadata, buttonkey = ('ENABLE ✅️', '✅️ Metadata') if user_dict.get('metadata') else ('DISABLE', 'Metadata')
         buttons.button_data(buttonkey, f'userset {user_id} setdata metadata')
 
