@@ -147,8 +147,7 @@ class TaskListener(TaskConfig):
 
         if not self.compress and not self.extract:
             up_path = await self.preName(up_path)
-            await self.editMetadata(up_path, gid)
-
+            
         if one_path := await self.isOneFile(up_path):
             up_path = one_path
 
@@ -186,6 +185,7 @@ class TaskListener(TaskConfig):
                 return
 
         if self.isLeech:
+            await self.editMetadata(up_path, gid)
             for s in m_size:
                 size -= s
             LOGGER.info('Leech Name: %s', self.name)
@@ -194,12 +194,14 @@ class TaskListener(TaskConfig):
                 task_dict[self.mid] = TelegramStatus(self, tg, size, gid, 'up')
             await gather(update_status_message(self.message.chat.id), tg.upload(o_files, m_size))
         elif is_gdrive_id(self.upDest):
+            await self.editMetadata(up_path, gid)
             LOGGER.info('GDrive Uploading: %s', self.name)
             drive = gdUpload(self, up_path)
             async with task_dict_lock:
                 task_dict[self.mid] = GdriveStatus(self, drive, size, gid, 'up')
             await gather(update_status_message(self.message.chat.id), sync_to_async(drive.upload, size))
         else:
+            await self.editMetadata(up_path, gid)
             LOGGER.info('RClone Uploading: %s', self.name)
             RCTransfer = RcloneTransferHelper(self)
             async with task_dict_lock:
