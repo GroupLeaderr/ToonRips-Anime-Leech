@@ -75,9 +75,15 @@ async def get_user_settings(from_user, data: str, uset_data: str):
         rccmsg, buttonkey = ('EXISTS ✅️', '✅️ RClone') if await aiopath.exists(rclone_path) else ('NOT SET', 'RClone')
         buttons.button_data(buttonkey, f'userset {user_id} rctool')
 
+        capmode = user_dict.get('caption_style', 'mono')
+         buttons.button_data('Caption ✅' if user_dict.get('captions') else 'Caption', f'userset {user_id} capmode')
+
         metadata, buttonkey = ('ENABLE ✅️', '✅️ Metadata') if user_dict.get('metadata') else ('DISABLE', 'Metadata')
         buttons.button_data(buttonkey, f'userset {user_id} setdata metadata')
 
+        attachment, buttonkey = ('ENABLE ✅️', '✅️ Attachment') if user_dict.get('attachment') else ('DISABLE', 'Attachment')
+         buttons.button_data(buttonkey, f'userset {user_id} setdata attachment')
+        
         default_upload = user_dict.get('default_upload', '') or config_dict['DEFAULT_UPLOAD']
         du = 'GDrive API' if default_upload == 'gd' else 'RClone'
         dub = 'GDRIVE' if default_upload != 'gd' else 'RCLONE'
@@ -93,9 +99,6 @@ async def get_user_settings(from_user, data: str, uset_data: str):
             buttonkey = 'YT-DLP'
             yto = '<b>NOT SET</b>'
         buttons.button_data(buttonkey, f'userset {user_id} setdata yt_opt')
-
-        capmode = user_dict.get('caption_style', 'mono')
-        buttons.button_data('✅️ Caption' if user_dict.get('captions') else 'Caption', f'userset {user_id} capmode')
 
         buttons.button_data('Zip Mode', f'userset {user_id} zipmode')
 
@@ -280,14 +283,15 @@ async def get_user_settings(from_user, data: str, uset_data: str):
                          'sufname': ('sufname', 'Sufname', UsetString.SUF, config_dict['IMAGE_SUFNAME'], ''),
                          'remname': ('remname', 'Remname', UsetString.REM.format(user_dict.get('remname') or '~'), config_dict['IMAGE_REMNAME'], ''),
                          'metadata': ('metadata', 'Metadata', UsetString.META.format(user_dict.get('metadata') or '~'), config_dict['IMAGE_METADATA'], ''),
+                         'attachment': ('attachment', 'Attachment', UsetString.ATCH.format(user_dict.get('attachment') or '~'), config_dict['IMAGE_ATTACHMENT'], ''),
                          'session_string': ('session_string', 'Session', UsetString.SES, config_dict['IMAGE_USER'], ''),
                          'yt_opt': ('yt_opt', 'YT-DLP', UsetString.YT, config_dict['IMAGE_YT'], '')}
             if uset_data == 'dump_ch':
                 log_title = user_dict.get('log_title')
                 buttons.button_data('✅️ Log Title' if log_title else 'Log Title', f'userset {user_id} setdata dump_ch {not log_title}')
-            elif uset_data == 'metadata':
-                clean_meta = user_dict.get('clean_metadata')
-                buttons.button_data('✅️ Clean' if clean_meta else '✅️ Overwrite', f'userset {user_id} setdata metadata {not clean_meta}')
+            # elif uset_data == 'metadata':
+                # clean_meta = user_dict.get('clean_metadata')
+                # buttons.button_data('✅️ Clean' if clean_meta else '✅️ Overwrite', f'userset {user_id} setdata metadata {not clean_meta}')
 
             key, butkey, text, image, qdata = uset_dict[uset_data]
             if user_dict.get(key) or key == 'yt_opt' and config_dict['YT_DLP_OPTIONS']:
@@ -321,6 +325,7 @@ async def get_user_settings(from_user, data: str, uset_data: str):
                         'sufname': (UsetString.SUF, config_dict['IMAGE_SUFNAME']),
                         'remname': (UsetString.REM.format(user_dict.get('remname') or '~'), config_dict['IMAGE_REMNAME']),
                         'metadata': (UsetString.META.format(user_dict.get('metadata') or '~'), config_dict['IMAGE_METADATA']),
+                        'attachment': (UsetString.META.format(user_dict.get('attachment') or '~'), config_dict['IMAGE_ATTACHMENT']),
                         'session_string': (UsetString.SES, config_dict['IMAGE_USER']),
                         'yt_opt': (UsetString.YT, config_dict['IMAGE_YT'])}
         text, image = prepare_dict[uset_data]
@@ -431,7 +436,7 @@ async def edit_user_settings(client: Client, query: CallbackQuery):
             handler_dict[user_id] = False
             await query.answer()
             if data[3] in ('dump_ch', 'metadata') and len(data) == 5:
-                key = 'log_title' if data[3] == 'dump_ch' else 'clean_metadata'
+                key = 'log_title' if data[3] == 'dump_ch' else 'metadata'
                 await update_user_ldata(user_id, key, literal_eval(data[4]))
             await update_user_settings(query, 'setdata', data[3])
         case 'gd' | 'rc' as value:
